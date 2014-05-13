@@ -1,0 +1,49 @@
+
+<head>
+<style>
+table
+  {
+    border-collapse:collapse;
+    font-family:"Helvetica";
+    color:#686868
+  }
+  table, td, th
+  {
+    border:1px solid #C0C0C0;
+    padding:10px;
+  }
+  th
+  {
+    border-bottom: 3px solid #C0C0C0;
+    text-align:left;
+  }
+</style>
+</head>
+
+<h1>My Bookstore</h1>
+
+<hr>
+
+<% all_books = Book.read %>
+
+<p>
+<table>
+  <tr>
+    <th width=400><strong>Available Titles</strong></th>
+    <th width=200><strong>Average Star Rating</strong></th>
+  </tr>
+  <% Book.read.each do |book| %>
+  <% book_review = Review.where("book_id" => book.id) %>
+  <tr>
+    <td><%= link_to book["title"], "/books/#{book["id"]}" %></td>
+    <td>
+      <% if book_review.present? %>
+        <%= book_review.average("stars") %>
+        <% else %>
+        No ratings yet.
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+</p>
